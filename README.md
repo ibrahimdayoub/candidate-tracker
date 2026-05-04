@@ -1,4 +1,4 @@
-````md
+
 # Candidate Tracker
 
 A professional internal tool for managing job applicants and interview applications.
@@ -14,11 +14,13 @@ Follow these steps to initialize and run the project using the automated scripts
 You must create `.env` files in both the API and Web applications.
 
 #### Backend  
+
 Create: `apps/api/.env`
 
 ```env
+WEB_URL="http://localhost:5173"
+DATABASE_URL="postgresql://dev:dev@localhost:5432/candidate_tracker?schema=public"
 PORT=3001
-DATABASE_URL="postgresql://dev:dev@localhost:5432/candidate_tracker"
 NODE_ENV=development
 ````
 
@@ -27,7 +29,7 @@ NODE_ENV=development
 Create: `apps/web/.env`
 
 ```env
-VITE_API_URL="http://localhost:3001"
+VITE_API_URL="http://localhost:3001/api"
 ```
 
 ---
@@ -89,7 +91,7 @@ This project is a monorepo organized as follows:
 
 The project includes tests for core logic, including:
 
-* API route validation (POST/GET/PATCH)
+* API route validation (GET/POST/PATCH)
 * Cross-entity search logic (JOIN queries)
 * Shared Zod schema validation
 
@@ -118,6 +120,3 @@ The database runs on PostgreSQL 15 via Docker Compose.
 * Recommended Node.js version: 18+
 
 ---
-
-```
-```
