@@ -1,99 +1,118 @@
-````md
-# Candidate Tracker
+# 🎯 Candidate Tracker
 
-A professional internal tool for managing job applicants and interview applications.
+> **Professional Monorepo** — A full-stack internal tool for managing job candidates and their applications with complete CRUD control, advanced search & filtering, and a fully type-safe backend.
+
+---
+
+## 📋 Project Overview
+
+Candidate Tracker is a production-grade internal dashboard designed to streamline the recruitment pipeline. Built as a **professional monorepo**, it offers:
+
+- 👥 **Candidate Showcase** — Browse all candidates with their full application details
+- 🛠️ **Complete CRUD** — Create, read, update, and delete candidates and applications with full control
+- 🔍 **Advanced Search & Filter** — Cross-entity search with multi-field filtering for lightning-fast lookups
+- 🧠 **Type-Safe Backend** — End-to-end TypeScript with shared Zod schemas across the entire stack
+- 🧪 **Automated Testing** — Comprehensive test coverage for API routes, validation, and search logic
+- 🏗️ **Professional Monorepo** — Clean separation of concerns with shared packages and workspace orchestration
 
 ---
 
 ## 🚀 Quick Start
 
-Follow these steps to initialize and run the project using the automated scripts.
+Follow these steps to spin up the project using automated scripts.
 
-### 1. Environment Configuration
+### 1. 🔧 Environment Configuration
 
-You must create `.env` files in both the API and Web applications.
+Duplicate the example files — **do NOT create them from scratch**.
 
-#### Backend  
-Create: `apps/api/.env`
+| Step | Action                                    |
+| :--: | ----------------------------------------- |
+|  📋  | `apps/api/.env.example` → `apps/api/.env` |
+|  📋  | `apps/web/.env.example` → `apps/web/.env` |
+
+#### ⚙️ Backend (`apps/api/.env`)
 
 ```env
+WEB_URL="http://localhost:5173"
+DATABASE_URL="postgresql://dev:dev@localhost:5432/candidate_tracker?schema=public"
 PORT=3001
-DATABASE_URL="postgresql://dev:dev@localhost:5432/candidate_tracker"
 NODE_ENV=development
-````
+```
 
-#### Frontend
-
-Create: `apps/web/.env`
+#### 🎨 Frontend (`apps/web/.env`)
 
 ```env
-VITE_API_URL="http://localhost:3001"
+VITE_API_URL="http://localhost:3001/api"
 ```
 
 ---
 
-### 2. Automatic Setup
+### 2. ⚡ Automatic Setup
 
-Run the following command from the root directory:
+Run from the project root:
 
 ```bash
 npm run setup
 ```
 
-This will:
-
-* Install dependencies
-* Start database (Docker)
-* Run migrations
-* Seed data
-* Build shared packages
+> 🔄 This single command handles: dependencies → Docker DB → migrations → seed data → shared package build
 
 ---
 
-### 3. Run Development Servers
-
-Start both backend and frontend concurrently:
+### 3. 🟢 Launch Dev Servers
 
 ```bash
 npm run dev
 ```
 
-* 🌐 Web App: [http://localhost:5173](http://localhost:5173)
-* ⚙️ API: [http://localhost:3001](http://localhost:3001)
+|      Service      | URL                                            |
+| :---------------: | ---------------------------------------------- |
+|  🌐 **Web App**   | [http://localhost:5173](http://localhost:5173) |
+| ⚙️ **API Server** | [http://localhost:3001](http://localhost:3001) |
 
 ---
 
-## 🛠 Project Structure
+## 🏗️ Project Architecture
 
-This project is a monorepo organized as follows:
+This is a **professional monorepo** structured for scalability:
 
-* `apps/api` → Fastify server with Prisma ORM and Zod validation
-* `apps/web` → React frontend using TanStack Query and Tailwind CSS
-* `packages/shared` → Shared Zod schemas and TypeScript types
+```
+📦 candidate-tracker/
+├── 📁 apps/
+│   ├── ⚙️ api/          → Fastify + Prisma ORM + Zod validation
+│   └── 🎨 web/          → React + TanStack Query + Tailwind CSS
+└── 📁 packages/
+    └── 🔗 shared/       → Shared Zod schemas & TypeScript types
+```
+
+|     Layer     | Stack                           | Purpose                                    |
+| :-----------: | ------------------------------- | ------------------------------------------ |
+|  ⚙️ **API**   | Fastify, Prisma, Zod            | Type-safe REST endpoints with validation   |
+|  🎨 **Web**   | React, TanStack Query, Tailwind | Responsive dashboard with optimistic UI    |
+| 🔗 **Shared** | TypeScript, Zod                 | Single source of truth for types & schemas |
 
 ---
 
-## 📖 Available Commands
+## 📖 Available Scripts
 
-| Command             | Description                                                           |
-| ------------------- | --------------------------------------------------------------------- |
-| `npm run setup`     | Full initialization (Install + DB Up + Migrate + Seed + Build Shared) |
-| `npm run dev`       | Runs API and Web apps concurrently                                    |
-| `npm test`          | Runs all tests across the workspace                                   |
-| `npm run db:studio` | Opens Prisma Studio to view database data                             |
-| `npm run db:reset`  | Resets the database and re-runs migrations                            |
+|        Command         | Description                                             |
+| :--------------------: | ------------------------------------------------------- |
+|   🚀 `npm run setup`   | Full init: install → DB → migrate → seed → build shared |
+|    🟢 `npm run dev`    | Run API + Web concurrently                              |
+|     🧪 `npm test`      | Execute full test suite across workspace                |
+| 🔬 `npm run db:studio` | Launch Prisma Studio GUI                                |
+| 🔄 `npm run db:reset`  | Reset DB and re-run all migrations                      |
 
 ---
 
 ## 🧪 Testing
 
-The project includes tests for core logic, including:
+Robust test coverage for critical paths:
 
-* API route validation (POST/GET/PATCH)
-* Cross-entity search logic (JOIN queries)
-* Shared Zod schema validation
-
-Run tests:
+- ✅ API route validation (GET / POST / PATCH)
+- ✅ Cross-entity search with JOIN queries
+- ✅ Shared Zod schema integrity
+- ✅ TypeScript type safety enforcement
 
 ```bash
 npm test
@@ -103,21 +122,39 @@ npm test
 
 ## 🐳 Docker
 
-The database runs on PostgreSQL 15 via Docker Compose.
+PostgreSQL 15 runs containerized via Docker Compose.
 
-* 👤 User: `dev`
-* 🔑 Password: `dev`
-* 📦 Port: `5432`
-
----
-
-## 📌 Notes
-
-* Make sure Docker is running before executing `npm run setup`
-* Ensure ports `3001`, `5173`, and `5432` are free
-* Recommended Node.js version: 18+
+|      Field      | Value               |
+| :-------------: | ------------------- |
+|   👤 **User**   | `dev`               |
+| 🔑 **Password** | `dev`               |
+|   📦 **Port**   | `5432`              |
+| 🗄️ **Database** | `candidate_tracker` |
 
 ---
 
-```
-```
+## 📌 Prerequisites
+
+- 🐳 **Docker** running before `npm run setup`
+- 🔌 **Ports** `3001`, `5173`, `5432` must be free
+- 📦 **Node.js** v18+ recommended
+  
+---
+
+## 📸 Screenshots
+
+### 🏠 Dashboard Page
+
+![Dashboard](screenshots/dashboard.png)
+
+### 👥 Candidates Page
+
+![Candidates](screenshots/candidates.png)
+
+### 📄 Applications Page
+
+![Applications](screenshots/applications.png)
+
+---
+
+> ⚡ _Built with a professional monorepo architecture for maximum maintainability, type safety, and developer experience._

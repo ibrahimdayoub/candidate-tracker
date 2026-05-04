@@ -54,7 +54,7 @@ export default function DashboardPage() {
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
                 {stats.map((stat, i) => (
                     <Link key={i} to={stat.href}>
-                        <Card className="hover:shadow-md transition cursor-pointer">
+                        <Card className="hover:shadow-md transition cursor-pointer bg-accent">
                             <CardHeader className="pb-2">
                                 <CardTitle className="text-sm font-medium text-muted-foreground">
                                     {stat.title}
@@ -70,7 +70,7 @@ export default function DashboardPage() {
             {/* Grid */}
             <div className="grid gap-4 md:grid-cols-2">
                 {/* Status Chart */}
-                <Card>
+                <Card className='bg-accent'>
                     <CardHeader>
                         <CardTitle>Applications by Status</CardTitle>
                     </CardHeader>
@@ -100,7 +100,7 @@ export default function DashboardPage() {
                     </CardContent>
                 </Card>
                 {/* Latest Applications */}
-                <Card>
+                <Card className='bg-accent'>
                     <CardHeader className="flex flex-row items-center justify-between">
                         <CardTitle>Latest Applications</CardTitle>
                         <Link
