@@ -48,6 +48,7 @@ export default function ApplicationsPage() {
         applications,
         isLoading,
         totalCount,
+        lastPage,
         createApplication,
         updateApplication,
         deleteApplication,
@@ -71,6 +72,12 @@ export default function ApplicationsPage() {
         setSearchParams(params)
     }
 
+    const handlePageChange = (newPage: number) => {
+        const newParams: any = Object.fromEntries(searchParams)
+        newParams.page = String(newPage)
+        setSearchParams(newParams)
+    }
+
     const handleAdd = () => {
         setSelectedApp(null)
         setIsFormOpen(true)
@@ -78,6 +85,11 @@ export default function ApplicationsPage() {
 
     const handleDelete = async (id: string | undefined) => {
         await deleteApplication(id)
+
+        if (applications?.length === 1 && page > 1) {
+            handlePageChange(page - 1)
+        }
+
         toast.success("Application deleted")
     }
 
@@ -278,6 +290,35 @@ export default function ApplicationsPage() {
 
                     </div>
                 </CardContent>
+                {/* Pagination */}
+                {lastPage > 1 && (
+                    <div className="flex items-center justify-between px-6 pb-6">
+                        <p className="text-sm text-muted-foreground">
+                            Showing {applications?.length || 0} of {totalCount} applications
+                        </p>
+                        <div className="flex items-center gap-2">
+                            <Button
+                                variant="outline"
+                                size="sm"
+                                onClick={() => handlePageChange(page - 1)}
+                                disabled={page <= 1 || isLoading}
+                            >
+                                Previous
+                            </Button>
+                            <span className="text-sm font-medium px-3 py-1.5 bg-slate-100 rounded-md">
+                                {page} / {lastPage}
+                            </span>
+                            <Button
+                                variant="outline"
+                                size="sm"
+                                onClick={() => handlePageChange(page + 1)}
+                                disabled={page >= lastPage || isLoading}
+                            >
+                                Next
+                            </Button>
+                        </div>
+                    </div>
+                )}
             </Card>
             {/* Create & Edit Application */}
             <ApplicationForm

@@ -1,11 +1,12 @@
 import type { Candidate, CandidateWithCount } from '@candidate-tracker/shared'
 
-import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import { Plus, MoreVertical, Pencil, Trash2, Search } from 'lucide-react'
 import { toast } from 'sonner'
 
 import { useCandidates } from '@/hooks/useCandidates'
+import { useDebounce } from '@/hooks/useDebounce'
 
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { Input } from '@/components/ui/input'
@@ -18,17 +19,36 @@ import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, 
 
 export default function CandidatesPage() {
     const navigate = useNavigate()
+    const [searchParams, setSearchParams] = useSearchParams()
 
-    const [search, setSearch] = useState('')
-    const [page, setPage] = useState(1)
+    const search = searchParams.get('search') || ''
+    const page = Number(searchParams.get('page')) || 1
+
+    const [searchInput, setSearchInput] = useState(search)
+    const debouncedSearch = useDebounce(searchInput, 500)
 
     const [isFormOpen, setIsFormOpen] = useState(false)
-    const [selectedCandidate, setSelectedCandidate] = useState<any>(null) // TODO
+    const [selectedCandidate, setSelectedCandidate] = useState<any>(null)
+
+    // Sync search with URL
+    useEffect(() => {
+        const newParams = new URLSearchParams(searchParams)
+
+        if (debouncedSearch) {
+            newParams.set('search', debouncedSearch)
+        } else {
+            newParams.delete('search')
+        }
+        newParams.set('page', '1')
+
+        setSearchParams(newParams)
+    }, [debouncedSearch])
 
     const {
         candidates,
         isLoading,
         totalCount,
+        lastPage,
         createCandidate,
         updateCandidate,
         deleteCandidate,
@@ -40,6 +60,12 @@ export default function CandidatesPage() {
         page,
         limit: 10
     })
+
+    const handlePageChange = (newPage: number) => {
+        const newParams = new URLSearchParams(searchParams)
+        newParams.set('page', String(newPage))
+        setSearchParams(newParams)
+    }
 
     const handleAdd = () => {
         setSelectedCandidate(null)
@@ -55,6 +81,11 @@ export default function CandidatesPage() {
     const handleDelete = async (id: string | undefined, e: React.MouseEvent) => {
         e.stopPropagation()
         await deleteCandidate(id)
+
+        if (candidates?.length === 1 && page > 1) {
+            handlePageChange(page - 1)
+        }
+
         toast.success("Candidate deleted")
     }
 
@@ -95,11 +126,8 @@ export default function CandidatesPage() {
                             <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
                             <Input
                                 placeholder="Search candidates..."
-                                value={search}
-                                onChange={(e) => {
-                                    setSearch(e.target.value)
-                                    setPage(1)
-                                }}
+                                value={searchInput}
+                                onChange={(e) => setSearchInput(e.target.value)}
                                 className="pl-9"
                             />
                             <p className="text-[10px] text-muted-foreground/60 mt-1 ml-2">
@@ -204,6 +232,36 @@ export default function CandidatesPage() {
                         </Table>
                     </div>
                 </CardContent>
+                {/* Pagination */}
+                {/* Pagination */}
+                {lastPage > 1 && (
+                    <div className="flex items-center justify-between px-6 pb-6">
+                        <p className="text-sm text-muted-foreground">
+                            Showing {candidates?.length || 0} of {totalCount} candidates
+                        </p>
+                        <div className="flex items-center gap-2">
+                            <Button
+                                variant="outline"
+                                size="sm"
+                                onClick={() => handlePageChange(page - 1)}
+                                disabled={page <= 1 || isLoading}
+                            >
+                                Previous
+                            </Button>
+                            <span className="text-sm font-medium px-3 py-1.5 bg-slate-100 rounded-md">
+                                {page} / {lastPage}
+                            </span>
+                            <Button
+                                variant="outline"
+                                size="sm"
+                                onClick={() => handlePageChange(page + 1)}
+                                disabled={page >= lastPage || isLoading}
+                            >
+                                Next
+                            </Button>
+                        </div>
+                    </div>
+                )}
             </Card>
             {/* Create & Edit Candidate */}
             <CandidateForm

@@ -75,7 +75,7 @@ export function useApplications (params?: ApplicationParams) {
     applications: applicationsQuery.data?.items ?? [],
     totalCount: applicationsQuery.data?.total ?? 0,
     lastPage: applicationsQuery.data?.last_page ?? 1,
-
+ 
     // States
     isLoading: applicationsQuery.isLoading,
     isError: applicationsQuery.isError,
