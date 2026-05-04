@@ -138,6 +138,22 @@ PostgreSQL 15 runs containerized via Docker Compose.
 - 🐳 **Docker** running before `npm run setup`
 - 🔌 **Ports** `3001`, `5173`, `5432` must be free
 - 📦 **Node.js** v18+ recommended
+  
+---
+
+## 📸 Screenshots
+
+### 🏠 Dashboard Page
+
+![Dashboard](screenshots/dashboard.png)
+
+### 👥 Candidates Page
+
+![Candidates](screenshots/candidates.png)
+
+### 📄 Applications Page
+
+![Applications](screenshots/applications.png)
 
 ---
 
