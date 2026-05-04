@@ -1,0 +1,32 @@
+{
+    "name": "candidate-tracker",
+    "private": true,
+    "version": "1.0.0",
+    "type": "module",
+    "workspaces": [
+        "apps/*",
+        "packages/*"
+    ],
+    "scripts": {
+        "db:up": "docker compose up -d",
+        "db:down": "docker compose down",
+        "db:reset": "npm run reset --workspace=@candidate-tracker/api",
+        "db:migrate": "npm run migrate --workspace=@candidate-tracker/api",
+        "db:generate": "npm run generate --workspace=@candidate-tracker/api",
+        "db:seed": "npm run seed --workspace=@candidate-tracker/api",
+        "db:studio": "npm run studio --workspace=@candidate-tracker/api",
+        
+        "dev:api": "npm run dev --workspace=@candidate-tracker/api",
+        "dev:web": "npm run dev --workspace=@candidate-tracker/web",
+        
+        "build:shared": "npm run build --workspace=@candidate-tracker/shared",
+        "build": "npm -ws run build --if-present",
+       
+        "setup": "npm install && npm run db:up && npm run db:migrate && npm run db:generate && npm run db:seed && npm run build:shared",
+        "dev": "concurrently \"npm:dev:api\" \"npm:dev:web\"",
+        "test": "npm -ws run test --if-present"
+    },
+    "devDependencies": {
+        "concurrently": "^9.0.0"
+    }
+}

@@ -1,0 +1,68 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
+}
+
+datasource db {
+  provider = "postgresql"
+  // url = env("DATABASE_URL")
+}
+
+
+/**
+ * Application Status Enum
+ */
+enum ApplicationStatus {
+  applied
+  screening
+  interview
+  offer
+  hired
+  rejected
+}
+
+model Candidate {
+  id           String   @id @default(uuid()) @db.Uuid
+  name         String
+  email        String   @unique
+  phone        String?
+  location     String?
+  linkedin_url String?
+  notes        String?  @db.Text
+
+  created_at   DateTime @default(now())
+  updated_at   DateTime @updatedAt
+
+  // Soft delete
+  deleted_at   DateTime?
+
+  applications Application[]
+
+  @@index([email])
+  @@index([name])
+  @@index([deleted_at])
+}
+
+model Application {
+  id                 String            @id @default(uuid()) @db.Uuid
+  candidate_id       String            @db.Uuid
+
+  job_title          String
+  company            String
+  status             ApplicationStatus @default(applied)
+
+  applied_at         DateTime
+  salary_expectation Int?
+  source             String?
+  notes              String? @db.Text
+
+  created_at         DateTime @default(now())
+  updated_at         DateTime @updatedAt
+
+  candidate          Candidate @relation(fields: [candidate_id], references: [id], onDelete: Cascade)
+
+  @@index([candidate_id])
+  @@index([job_title])
+  @@index([company])
+  @@index([status])
+}
