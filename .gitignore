@@ -20,8 +20,9 @@ coverage/
 .env.*
 **/.env
 **/.env.*
+
+# Allow example files
 !.env.example
-**/.env.example
 
 # Logs
 logs/
