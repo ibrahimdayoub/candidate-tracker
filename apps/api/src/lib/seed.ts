@@ -19,7 +19,27 @@ async function main () {
     'Dylan Cooper',
     'Skyler White',
     'Rowan Knight',
-    'Avery Scott'
+    'Avery Scott',
+    'Luna Sparks',
+    'Noah Vector',
+    'Zara Quantum',
+    'Leo Phoenix',
+    'Maya Orbit',
+    'Eli Storm',
+    'Nova Sterling',
+    'Kai Atlas',
+    'Aria Nexus',
+    'Theo Pulse',
+    'Riley Cosmos',
+    'Jax Ember',
+    'Sage Horizon',
+    'Nico Flux',
+    'Ivy Nova',
+    'Orion Blake',
+    'Milo Zenith',
+    'Ezra Drift',
+    'Lena Circuit',
+    'Axel Byte'
   ]
 
   const companies = [
@@ -32,7 +52,12 @@ async function main () {
     'Spotify',
     'Uber',
     'Airbnb',
-    'Stripe'
+    'Stripe',
+    'Notion',
+    'Figma',
+    'Atlassian',
+    'Shopify',
+    'OpenAI'
   ]
 
   const jobTitles = [
@@ -45,7 +70,22 @@ async function main () {
     'Data Engineer',
     'Solutions Architect',
     'Technical Lead',
-    'Product Manager'
+    'Product Manager',
+    'Senior Backend Developer',
+    'Senior Frontend Developer',
+    'Fullstack Engineer',
+    'Platform Engineer',
+    'Site Reliability Engineer',
+    'Machine Learning Engineer',
+    'AI Engineer',
+    'Data Scientist',
+    'QA Engineer',
+    'Automation Engineer',
+    'Security Engineer',
+    'Mobile App Developer',
+    'iOS Developer',
+    'Android Developer',
+    'Engineering Manager'
   ]
 
   const sources = [

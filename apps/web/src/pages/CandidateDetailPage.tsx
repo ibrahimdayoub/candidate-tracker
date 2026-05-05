@@ -122,7 +122,7 @@ export default function CandidateDetailPage() {
             {/* Grid */}
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
                 {/* Profile */}
-                <Card>
+                <Card className='bg-accent/50'>
                     <CardHeader className="text-center space-y-2">
                         <div className="w-20 h-20 rounded-full bg-primary/10 text-primary flex items-center justify-center text-2xl font-bold mx-auto">
                             {candidate.name?.charAt(0)}
@@ -148,7 +148,7 @@ export default function CandidateDetailPage() {
                     </CardContent>
                 </Card>
                 {/* Applications */}
-                <Card className="md:col-span-3">
+                <Card className="md:col-span-3 bg-accent/50">
                     <CardHeader className="flex flex-row items-center justify-between">
                         <CardTitle className="flex items-center gap-2">
                             <Briefcase className="h-5 w-5" />

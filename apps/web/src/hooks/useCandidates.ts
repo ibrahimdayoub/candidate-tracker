@@ -67,6 +67,7 @@ export function useCandidates (params?: CandidateParams) {
     // Data
     candidates: candidatesQuery.data?.items ?? [],
     totalCount: candidatesQuery.data?.total ?? 0,
+    pageSize: candidatesQuery.data?.limit ?? 1,
     lastPage: candidatesQuery.data?.last_page ?? 1,
 
     // States

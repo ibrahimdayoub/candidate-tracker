@@ -20,6 +20,7 @@ const ListResponseSchema = z.object({
   items: z.array(CandidateWithCountSchema),
   total: z.number(),
   page: z.number(),
+  limit: z.number(),
   last_page: z.number()
 })
 
@@ -90,6 +91,7 @@ export async function candidateRoutes (app: FastifyInstance) {
         items,
         total,
         page,
+        limit,
         last_page: Math.ceil(total / limit)
       }
     }

@@ -2,7 +2,7 @@ import type { Application } from '@candidate-tracker/shared'
 
 import { useState } from 'react'
 import { useParams, useNavigate, Link } from 'react-router-dom'
-import { ArrowLeft, Calendar, Building2, Briefcase, User, Mail, ExternalLink, Pencil, Trash2 } from 'lucide-react'
+import { ArrowLeft, Calendar, Building2, Briefcase, User, Mail, ExternalLink, Pencil, Trash2, DollarSign, Globe } from 'lucide-react'
 import { format } from 'date-fns'
 import { toast } from 'sonner'
 
@@ -50,9 +50,9 @@ export default function ApplicationDetailPage() {
     }
 
     const handleDelete = async () => {
-            await deleteApplication(id!)
-            toast.success("Application deleted")
-            navigate('/applications')
+        await deleteApplication(id!)
+        toast.success("Application deleted")
+        navigate('/applications')
     }
 
     const getStatusVariant = (status: string) => {
@@ -99,64 +99,92 @@ export default function ApplicationDetailPage() {
                                 </AlertDialogAction>
                             </AlertDialogFooter>
                         </AlertDialogContent>
-                    </AlertDialog> 
+                    </AlertDialog>
                 </div>
             </div>
             {/* Grid */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {/* Application */}
-                <Card className="md:col-span-2">
-                    <CardHeader className="space-y-2">
-                        <div className="flex justify-between items-start">
-                            <div>
-                                <CardTitle className="flex items-center gap-2">
-                                    <Briefcase className="h-5 w-5 text-blue-600" />
+                <Card className="md:col-span-2 shadow-sm hover:shadow-md transition rounded-2xl bg-accent/50">
+                    <CardHeader className="space-y-3 pb-2">
+                        <div className="flex justify-between items-start gap-4">
+                            <div className="space-y-1">
+                                <CardTitle className="flex items-center gap-2 text-xl">
+                                    <div className="p-2 rounded-lg bg-blue-50">
+                                        <Briefcase className="h-5 w-5 text-blue-600" />
+                                    </div>
                                     {application.job_title}
                                 </CardTitle>
-                                <p className="text-sm text-muted-foreground flex items-center gap-1 mt-1">
+                                <p className="text-sm text-muted-foreground flex items-center gap-2">
                                     <Building2 className="h-4 w-4" />
                                     {application.company}
                                 </p>
                             </div>
-                            <Badge variant={getStatusVariant(application.status)}>
+                            <Badge
+                                className="capitalize px-3 py-1 text-xs rounded-full"
+                                variant={getStatusVariant(application.status)}
+                            >
                                 {application.status}
                             </Badge>
                         </div>
                     </CardHeader>
-                    <CardContent className="space-y-4">
-                        <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                            <Calendar className="h-4 w-4" />
-                            {format(new Date(application.applied_at), 'PPP')}
+                    <CardContent className="space-y-5 pt-2">
+                        {/* Info */}
+                        <div className="flex flex-wrap gap-4 text-sm text-muted-foreground">
+                            <div className="flex items-center gap-2">
+                                <Calendar className="h-4 w-4 text-muted-foreground/70" />
+                                {format(new Date(application.applied_at), "PPP")}
+                            </div>
+                            <div className="flex items-center gap-2">
+                                <DollarSign className="h-4 w-4 text-muted-foreground/70" />
+                                <span>
+                                    {application.salary_expectation
+                                        ? `${application.salary_expectation}`
+                                        : "-"}
+                                </span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                                <Globe className="h-4 w-4 text-muted-foreground/70" />
+                                <span>{application.source || "-"}</span>
+                            </div>
                         </div>
                         <Separator />
-                        <p className="text-sm text-muted-foreground whitespace-pre-line">
+                        {/* Notes */}
+                        <div className="bg-muted/40 rounded-xl p-4 text-sm text-muted-foreground leading-relaxed">
                             {application.notes || "No notes provided"}
-                        </p>
+                        </div>
                     </CardContent>
                 </Card>
                 {/* Candidate */}
-                <Card>
-                    <CardHeader>
-                        <CardTitle className="flex items-center gap-2">
-                            <User className="h-5 w-5 text-blue-600" />
+                <Card className="shadow-sm hover:shadow-md transition rounded-2xl bg-accent/50">
+                    <CardHeader className="pb-2">
+                        <CardTitle className="flex items-center gap-2 text-lg">
+                            <div className="p-2 rounded-lg bg-blue-50">
+                                <User className="h-5 w-5 text-blue-600" />
+                            </div>
                             Candidate
                         </CardTitle>
                     </CardHeader>
-                    <CardContent className="space-y-3">
+                    <CardContent className="space-y-4">
                         <Link
                             to={`/candidates/${application.candidate_id}`}
-                            className="block p-3 rounded-md hover:bg-muted transition"
+                            className="block p-4 rounded-xl border hover:bg-muted/50 hover:border-primary transition group"
                         >
                             <div className="flex items-center justify-between font-medium">
                                 {application.candidate?.name}
-                                <ExternalLink className="h-4 w-4" />
+                                <ExternalLink className="h-4 w-4 opacity-60 group-hover:opacity-100 transition" />
                             </div>
-                            <div className="text-sm text-muted-foreground flex items-center gap-2 mt-1">
+
+                            <div className="text-sm text-muted-foreground flex items-center gap-2 mt-2">
                                 <Mail className="h-4 w-4" />
                                 {application.candidate?.email}
                             </div>
                         </Link>
-                        <Button variant="outline" className="w-full" asChild>
+                        <Button
+                            variant="default"
+                            className="w-full rounded-xl shadow-sm hover:shadow-md transition"
+                            asChild
+                        >
                             <Link to={`/candidates/${application.candidate_id}`}>
                                 View Profile
                             </Link>

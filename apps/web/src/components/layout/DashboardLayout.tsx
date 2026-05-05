@@ -1,5 +1,5 @@
 import { NavLink, useLocation } from "react-router-dom"
-import { Users, FileText, LayoutDashboard, ChevronRight, UserCircle, Settings, LogOut, Target } from "lucide-react"
+import { Users, FileText, LayoutDashboard, ChevronRight, UserCircle, Settings, LogOut, Target, Briefcase } from "lucide-react"
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarProvider, SidebarTrigger, SidebarInset } from "@/components/ui/sidebar"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { Separator } from "@/components/ui/separator"
@@ -24,16 +24,22 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         {/* Sidebar */}
         <Sidebar variant="inset" collapsible="icon">
           {/* Header */}
-          <SidebarHeader className="h-16 flex items-center px-4 border-b">
+          <SidebarHeader className="h-16 flex items-center px-4 border-b bg-background/60 backdrop-blur supports-backdrop-filter:bg-background/50">
             <div className="flex items-center gap-3">
-              <div className="h-9 w-9 flex items-center justify-center rounded-lg bg-linear-to-br from-blue-600 to-blue-500 text-white shadow-md">
-                <Target className="h-5 w-5" />
+              {/* Logo */}
+              <div className="relative h-10 w-10 flex items-center justify-center rounded-xl bg-linear-to-br from-blue-600 to-indigo-500 text-white shadow-sm">
+                <Briefcase className="h-5 w-5" />
+                <div className="absolute inset-0 rounded-xl bg-blue-500/20 blur-md opacity-0 hover:opacity-100 transition" />
               </div>
+              {/* Text */}
               <div className="group-data-[collapsible=icon]:hidden leading-tight">
-                <h1 className="font-bold text-lg tracking-tight">
-                  App <span className="text-blue-600">RS</span>
+                <h1 className="font-semibold text-base tracking-tight flex items-center gap-1">
+                  App
+                  <span className="text-blue-600">RS</span>
                 </h1>
-                <p className="text-xs text-slate-400">Recruitment System</p>
+                <p className="text-xs text-muted-foreground">
+                  Recruitment System
+                </p>
               </div>
             </div>
           </SidebarHeader>

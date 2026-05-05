@@ -151,9 +151,17 @@ PostgreSQL 15 runs containerized via Docker Compose.
 
 ![Candidates](screenshots/candidates.png)
 
+### 🔍 Candidate Details
+
+![Candidate Details](screenshots/candidate-details.png)
+
 ### 📄 Applications Page
 
 ![Applications](screenshots/applications.png)
+
+### 📝 Application Details
+
+![Application Details](screenshots/application-details.png)
 
 ---
 

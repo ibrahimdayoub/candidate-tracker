@@ -39,7 +39,6 @@ export default function ApplicationsPage() {
         return {
             search: debouncedSearch,
             page,
-            limit: 10,
             ...(parsed.success && { status: parsed.data })
         }
     }, [debouncedSearch, page, status])
@@ -48,6 +47,7 @@ export default function ApplicationsPage() {
         applications,
         isLoading,
         totalCount,
+        pageSize,
         lastPage,
         createApplication,
         updateApplication,
@@ -56,6 +56,9 @@ export default function ApplicationsPage() {
         isUpdating,
         isDeleting
     } = useApplications(params)
+
+    const start = (page - 1) * pageSize + 1
+    const end = Math.min(page * pageSize, totalCount)
 
     // Update status via URL
     const handleStatusChange = (value: string) => {
@@ -125,11 +128,11 @@ export default function ApplicationsPage() {
                 </div>
                 <Button onClick={handleAdd}>
                     <Plus className="mr-2 h-4 w-4" />
-                    New Application
+                    Add Application
                 </Button>
             </div>
             {/* Table */}
-            <Card>
+            <Card className='bg-accent/25'>
                 {/* Header + Search */}
                 <CardHeader>
                     <div className="flex flex-col md:flex-row gap-4 justify-between">
@@ -294,7 +297,7 @@ export default function ApplicationsPage() {
                 {lastPage > 1 && (
                     <div className="flex items-center justify-between px-6 pb-6">
                         <p className="text-sm text-muted-foreground">
-                            Showing {applications?.length || 0} of {totalCount} applications
+                            Showing {start}-{end} of {totalCount} applications
                         </p>
                         <div className="flex items-center gap-2">
                             <Button

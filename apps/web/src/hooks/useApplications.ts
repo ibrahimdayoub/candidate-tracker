@@ -40,7 +40,6 @@ export function useApplications (params?: ApplicationParams) {
   const createMutation = useMutation({
     mutationFn: applicationApi.create,
     onSuccess: (_, vars) => {
-      console.log(vars)
       queryClient.invalidateQueries({ queryKey: ['applications'] })
       queryClient.invalidateQueries({
         queryKey: ['candidate', vars.candidate_id]
@@ -74,6 +73,7 @@ export function useApplications (params?: ApplicationParams) {
     // Data
     applications: applicationsQuery.data?.items ?? [],
     totalCount: applicationsQuery.data?.total ?? 0,
+    pageSize: applicationsQuery.data?.limit ?? 1,
     lastPage: applicationsQuery.data?.last_page ?? 1,
  
     // States

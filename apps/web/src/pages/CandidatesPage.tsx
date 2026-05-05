@@ -48,6 +48,7 @@ export default function CandidatesPage() {
         candidates,
         isLoading,
         totalCount,
+        pageSize,
         lastPage,
         createCandidate,
         updateCandidate,
@@ -57,9 +58,11 @@ export default function CandidatesPage() {
         isDeleting
     } = useCandidates({
         search,
-        page,
-        limit: 10
+        page
     })
+
+    const start = (page - 1) * pageSize + 1
+    const end = Math.min(page * pageSize, totalCount)
 
     const handlePageChange = (newPage: number) => {
         const newParams = new URLSearchParams(searchParams)
@@ -91,7 +94,6 @@ export default function CandidatesPage() {
 
     const handleFormSubmit = async (data: Candidate) => {
         if (selectedCandidate) {
-            console.log("Edit: ", data)
             await updateCandidate({ id: selectedCandidate.id, data: { ...data } })
             toast.success("Candidate updated")
         } else {
@@ -117,7 +119,7 @@ export default function CandidatesPage() {
                 </Button>
             </div>
             {/* Table */}
-            <Card>
+            <Card className='bg-accent/25'>
                 {/* Header + Search */}
                 <CardHeader>
                     <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -233,11 +235,38 @@ export default function CandidatesPage() {
                     </div>
                 </CardContent>
                 {/* Pagination */}
-                {/* Pagination */}
-                {lastPage > 1 && (
+                {/* {lastPage > 1 && (
                     <div className="flex items-center justify-between px-6 pb-6">
                         <p className="text-sm text-muted-foreground">
                             Showing {candidates?.length || 0} of {totalCount} candidates
+                        </p>
+                        <div className="flex items-center gap-2">
+                            <Button
+                                variant="outline"
+                                size="sm"
+                                onClick={() => handlePageChange(page - 1)}
+                                disabled={page <= 1 || isLoading}
+                            >
+                                Previous
+                            </Button>
+                            <span className="text-sm font-medium px-3 py-1.5 bg-slate-100 rounded-md">
+                                {page} / {lastPage}
+                            </span>
+                            <Button
+                                variant="outline"
+                                size="sm"
+                                onClick={() => handlePageChange(page + 1)}
+                                disabled={page >= lastPage || isLoading}
+                            >
+                                Next
+                            </Button>
+                        </div>
+                    </div>
+                )} */}
+                {lastPage > 1 && (
+                    <div className="flex items-center justify-between px-6 pb-6">
+                        <p className="text-sm text-muted-foreground">
+                            Showing {start}-{end} of {totalCount} applications
                         </p>
                         <div className="flex items-center gap-2">
                             <Button
